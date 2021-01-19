@@ -48,23 +48,28 @@ with open('creators.txt', encoding = 'utf-8') as creator_txt:
     creator_txt = creator_txt.read().split(',')
     creator_set = set(creator_txt)
     creator_counter = Counter(creator_txt)
-    with open('creator_data.csv', 'w', encoding = 'utf-8') as csv_output:
-        # title gender birthDate birthYear deathDate deathYear ethnicity nationality country region religion 
-        # activeYearsStartYear genre notableWork almaMater 
-        csv_output.write('Title, Number_of_characters, Gender, birthDate, birthYear, ' +
-            'deathDate, deathYear, ethnicity, nationality, country, region, religion, ' +
-            'activeYearsStartYear, genre, notableWork, almaMater \n')
-        for i in range(26):
-                with open(f'../People/{alphabet[i]}_people.json', encoding = 'utf-8') as json_file:
-                    people = json.load(json_file)
-                    for person in people:
-                        if (person['title'] in creator_set):
-                            number_of_characters = creator_counter[person['title']]
-                            csv_output.write(f"{person['title'].replace('_', ' ')}, {number_of_characters}, " + 
-                                f"{clean_data(person, 'gender')}, {clean_data(person, 'birthDate')}, {clean_data(person, 'birthYear')}, " +
-                                f"{clean_data(person, 'deathDate')}, {clean_data(person, 'deathYear')}, {clean_data(person, 'ethnicity')}, " +
-                                f"{clean_data(person, 'nationality')}, {clean_data(person, 'country')}, {clean_data(person, 'region')}, " +
-                                f"{clean_data(person, 'religion')}, {clean_data(person, 'activeYearsStartYear')}, {clean_data(person, 'genre')}, " +
-                                f"{clean_data(person, 'notableWork')}, {clean_data(person, 'almaMater')}\n")
-                            #print(person['title'])
+    print(len(creator_set))
+    # with open('creator_data.csv', 'w', encoding = 'utf-8') as csv_output:
+    #     # title gender birthDate birthYear deathDate deathYear ethnicity nationality country region religion 
+    #     # activeYearsStartYear genre notableWork almaMater 
+    #     csv_output.write('Title, Number_of_characters, Description, Gender, birthDate, birthYear, ' +
+    #         'deathDate, deathYear, ethnicity, nationality, country, region, religion, ' +
+    #         'activeYearsStartYear, genre, notableWork, almaMater \n')
+    #     for i in range(26):
+    #             with open(f'../People/{alphabet[i]}_people.json', encoding = 'utf-8') as json_file:
+    #                 people = json.load(json_file)
+    #                 for person in people:
+    #                     if (person['title'] in creator_set):
+    #                         number_of_characters = creator_counter[person['title']]
+    #                         if (person.get('http://purl.org/dc/elements/1.1/description') != None):
+    #                             description = person.get('http://purl.org/dc/elements/1.1/description')
+    #                         else:
+    #                             description = 'NA'
+    #                         csv_output.write(f"{person['title'].replace('_', ' ')}, {number_of_characters}, {description}, " + 
+    #                             f"{clean_data(person, 'gender')}, {clean_data(person, 'birthDate')}, {clean_data(person, 'birthYear')}, " +
+    #                             f"{clean_data(person, 'deathDate')}, {clean_data(person, 'deathYear')}, {clean_data(person, 'ethnicity')}, " +
+    #                             f"{clean_data(person, 'nationality')}, {clean_data(person, 'country')}, {clean_data(person, 'region')}, " +
+    #                             f"{clean_data(person, 'religion')}, {clean_data(person, 'activeYearsStartYear')}, {clean_data(person, 'genre')}, " +
+    #                             f"{clean_data(person, 'notableWork')}, {clean_data(person, 'almaMater')}\n")
+    #                         #print(person['title'])
                             
