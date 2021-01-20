@@ -83,6 +83,7 @@ plot_AUTHORS <- plot1a %>%
   mutate(not_available = ifelse(birthYear == "NA", 1, 2))%>%
   subset(not_available==2)
 
+  
 ggplot(data=plot_AUTHORS)+
   aes(x=birthDecade) +
   geom_bar()+
