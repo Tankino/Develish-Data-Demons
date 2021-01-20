@@ -7,10 +7,7 @@ creator_data <- read_csv("creator_data_cleaned.csv")
 
 plot1a <- creator_data %>%
   select(birthYear, Number_of_characters) %>%
-  mutate(birthDecade = ifelse(birthYear<1200, "1100s", 0)) %>%
-  mutate(birthDecade = ifelse((birthYear>1199) & (birthYear<1300), "1200s", birthDecade)) %>%
-  mutate(birthDecade = ifelse((birthYear>1299) & (birthYear<1400), "1300s", birthDecade)) %>%
-  mutate(birthDecade = ifelse((birthYear>1399) & (birthYear<1500), "1400s", birthDecade)) %>%
+  mutate(birthDecade = ifelse((birthYear<1500), "<=1400s", 0)) %>%
   mutate(birthDecade = ifelse((birthYear>1499) & (birthYear<1600), "1500s", birthDecade)) %>%
   mutate(birthDecade = ifelse((birthYear>1599) & (birthYear<1700), "1600s", birthDecade)) %>%
   mutate(birthDecade = ifelse((birthYear>1699) & (birthYear<1800), "1700s", birthDecade)) %>%
@@ -51,7 +48,7 @@ ggplot(data=plot_SUM)+
   scale_y_continuous(minor_breaks = seq(0 , 750, 50), breaks = seq(0, 700, 100), 
                      position = "right")+
   theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
-        axis.text.y = element_text(hjust = 0.5),
+        axis.text.y = element_text(vjust = -0.5, hjust = -10),
         panel.grid.minor = element_line(colour="grey", size=0.3),
         panel.grid = element_line(colour="grey", size=0.3))
 
@@ -67,18 +64,36 @@ ggplot(data=plot_AVG)+
   aes(x=birthDecade, y=AVGcharacters_by_birthDecade) +
   geom_col()+
   labs(x = "Birth decade of author",
-       y = "Average number of characters")
+       y = "Average number of characters")+
+  theme_economist_white(gray_bg = FALSE)+
+  scale_color_economist()+
+  scale_y_continuous(minor_breaks = seq(1 , 16, 1), breaks = seq(1, 16, 2),
+                     position = "right")+
+  theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
+        axis.text.y = element_text(vjust = -0.5, hjust = -0.5),
+        panel.grid.minor = element_line(colour="grey", size=0.3),
+        panel.grid = element_line(colour="grey", size=0.3))
 
 ggsave("average_characters.pdf")
 
-  #labs(caption = "Fig. 1: Progression of Dutch houses with each energy label from 2008 to 2019",
-  #   x = "Year",
-  #    y = "Number of Houses (Millions)",
-  #     color = "Energy Label")+
-  #scale_x_continuous(limits=c(2008, 2019),
-  #                   breaks=c(2008,2010,2012,2014,2016,2018))+
-  #scale_y_continuous(limits=c(0, 1.1),
-  #                   breaks=c(0,0.25,0.50,0.75, 1))+
-  #scale_color_discrete(limits=c("Aplusplus", "Aplus", "A","B", "C", "D", "E", "F", "G"),
-  #                     labels=c("A++", "A+", "A", "B", "C", "D", "E", "F", "G"))
 
+plot_AUTHORS <- plot1a %>%
+  group_by(birthDecade)%>%
+  arrange(birthDecade)%>%
+  mutate(not_available = ifelse(birthYear == "NA", 1, 2))%>%
+  subset(not_available==2)
+
+ggplot(data=plot_AUTHORS)+
+  aes(x=birthDecade) +
+  geom_bar()+
+  labs(x = "Birth decade of author",
+       y = "Total number of authors\n")+
+  theme_economist_white(gray_bg = FALSE)+
+  scale_color_economist()+
+  scale_y_continuous( position = "right")+
+  theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
+        axis.text.y = element_text(vjust = -0.5, hjust = -10),
+        panel.grid.minor = element_line(colour="grey", size=0.3),
+        panel.grid = element_line(colour="grey", size=0.3))
+
+ggsave("total_authors.pdf")
