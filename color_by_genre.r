@@ -35,7 +35,12 @@ plot1a <- creator_data %>%
 plot_SUM <- plot1a %>%
   group_by(birthDecade) %>%
   mutate(TOTcharacters_by_birthDecade = sum(Number_of_characters))%>%
-  filter(!is.na(birthDecade))
+  filter(!is.na(birthDecade)) %>%
+  select(Number_of_characters, Description, birthDecade, TOTcharacters_by_birthDecade) %>%
+  group_by(birthDecade) %>%
+  add_count(birthDecade) %>%
+  mutate(TOTcharacters_by_birthDecade =TOTcharacters_by_birthDecade/n) %>%
+  group_by(birthDecade, Description)
 
 ggplot(data=plot_SUM)+
   aes(x=birthDecade, y=TOTcharacters_by_birthDecade) +
@@ -44,8 +49,9 @@ ggplot(data=plot_SUM)+
        y = "Total number of characters\n")+
   theme_economist_white(gray_bg = FALSE)+
   scale_color_economist()+
-  #scale_y_continuous(minor_breaks = seq(0 , 750, 50), breaks = seq(0, 700, 100), 
-                    # position = "right")+
+  scale_y_continuous(minor_breaks = seq(0 , 220, 25), 
+                     breaks = seq(0, 220, 50), 
+                     position = "right")+
   theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
         axis.text.y = element_text(vjust = -0.5, hjust = -10),
         panel.grid.minor = element_line(colour="grey", size=0.3),

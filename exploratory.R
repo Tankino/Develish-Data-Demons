@@ -65,13 +65,16 @@ ggsave("total_characters.pdf")
 
 plot_AVG <- plot1a %>%
   group_by(birthDecade) %>%
-  summarise(AVGcharacters_by_birthDecade = mean(Number_of_characters))
-
-plot_AVG <- plot_AVG[-c(25),]
+  mutate(AVGcharacters_by_birthDecade = mean(Number_of_characters)) %>%
+  add_count(birthDecade) %>%
+  mutate(prop_contribution=Number_of_characters/n) %>%
+  mutate(max_prop=ifelse(max(prop_contribution)==prop_contribution, prop_contribution, NA)) %>%
+  filter(!is.na(max_prop)) %>%
+  filter(!is.na(birthDecade))
 
 ggplot(data=plot_AVG)+
-  aes(x=birthDecade, y=AVGcharacters_by_birthDecade) +
-  geom_col()+
+  aes(x=birthDecade)+
+  geom_col(aes(y=AVGcharacters_by_birthDecade))+
   labs(x = "Birth decade of creator",
        y = "Average number of characters")+
   theme_economist_white(gray_bg = FALSE)+
@@ -81,7 +84,9 @@ ggplot(data=plot_AVG)+
   theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
         axis.text.y = element_text(vjust = -0.5, hjust = -0.5),
         panel.grid.minor = element_line(colour="grey", size=0.3),
-        panel.grid = element_line(colour="grey", size=0.3))
+        panel.grid = element_line(colour="grey", size=0.3))+
+  geom_col(aes(y=max_prop), fill='pink')
+
 
 ggsave("average_characters.pdf")
 
