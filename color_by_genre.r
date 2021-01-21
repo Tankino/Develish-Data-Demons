@@ -42,13 +42,15 @@ plot_SUM <- plot1a %>%
   mutate(TOTcharacters_by_birthDecade =TOTcharacters_by_birthDecade/n) %>%
   group_by(birthDecade, Description)
 
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2")
+
 ggplot(data=plot_SUM)+
   aes(x=birthDecade, y=TOTcharacters_by_birthDecade) +
   geom_col(aes(fill=Description))+
+  scale_fill_manual(values=cbPalette)+
   labs(x = "Birth decade of creator",
        y = "Total number of characters\n")+
   theme_economist_white(gray_bg = FALSE)+
-  scale_color_economist()+
   scale_y_continuous(minor_breaks = seq(0 , 220, 25), 
                      breaks = seq(0, 220, 50), 
                      position = "right")+
