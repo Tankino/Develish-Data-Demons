@@ -5,6 +5,15 @@ library(ggthemes)
 
 creator_data <- read_csv("creator_data_cleaned.csv") 
 
+genre_data <- count(creator_data, genre)
+
+creators_with_descriptions <- creator_data %>%
+  filter(!is.na(Description)) %>%
+  write_csv("creators_with_descriptions.csv")
+
+creators_with_genre <- creator_data %>%
+  filter(!is.na(genre))
+
 plot1a <- creator_data %>%
   select(birthYear, Number_of_characters) %>%
   mutate(birthDecade = ifelse((birthYear<1500), "<=1400s", 0)) %>%
@@ -41,7 +50,7 @@ plot_SUM <- plot_SUM[-c(25),]
 ggplot(data=plot_SUM)+
   aes(x=birthDecade, y=TOTcharacters_by_birthDecade) +
   geom_col()+
-  labs(x = "Birth decade of author",
+  labs(x = "Birth decade of creator",
        y = "Total number of characters\n")+
   theme_economist_white(gray_bg = FALSE)+
   scale_color_economist()+
@@ -63,7 +72,7 @@ plot_AVG <- plot_AVG[-c(25),]
 ggplot(data=plot_AVG)+
   aes(x=birthDecade, y=AVGcharacters_by_birthDecade) +
   geom_col()+
-  labs(x = "Birth decade of author",
+  labs(x = "Birth decade of creator",
        y = "Average number of characters")+
   theme_economist_white(gray_bg = FALSE)+
   scale_color_economist()+
@@ -83,12 +92,11 @@ plot_AUTHORS <- plot1a %>%
   mutate(not_available = ifelse(birthYear == "NA", 1, 2))%>%
   subset(not_available==2)
 
-  
 ggplot(data=plot_AUTHORS)+
   aes(x=birthDecade) +
   geom_bar()+
-  labs(x = "Birth decade of author",
-       y = "Total number of authors\n")+
+  labs(x = "Birth decade of creator",
+       y = "Total number of creator\n")+
   theme_economist_white(gray_bg = FALSE)+
   scale_color_economist()+
   scale_y_continuous( position = "right")+
