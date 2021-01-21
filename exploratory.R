@@ -76,7 +76,7 @@ ggplot(data=plot_AVG)+
   aes(x=birthDecade)+
   geom_col(aes(y=AVGcharacters_by_birthDecade))+
   labs(x = "Birth decade of creator",
-       y = "Average number of characters")+
+       y = "Average number of characters",)+
   theme_economist_white(gray_bg = FALSE)+
   scale_color_economist()+
   scale_y_continuous(minor_breaks = seq(1 , 16, 1), breaks = seq(1, 16, 2),
@@ -85,7 +85,8 @@ ggplot(data=plot_AVG)+
         axis.text.y = element_text(vjust = -0.5, hjust = -0.5),
         panel.grid.minor = element_line(colour="grey", size=0.3),
         panel.grid = element_line(colour="grey", size=0.3))+
-  geom_col(aes(y=max_prop), fill='pink')
+  geom_col(aes(y=max_prop), fill='pink')+
+  annotate("text", x=1840, y=12, label = "Alice in Wonderland")
 
 
 ggsave("average_characters.pdf")
