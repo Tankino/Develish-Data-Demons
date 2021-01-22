@@ -42,7 +42,7 @@ plot_SUM <- plot1a %>%
   mutate(TOTcharacters_by_birthDecade =TOTcharacters_by_birthDecade/n) %>%
   group_by(birthDecade, Description)
 
-cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2")
+cbPalette <- c("#56B4E9", "#009E73", "#F0E442", "#0072B2")
 
 ggplot(data=plot_SUM)+
   aes(x=birthDecade, y=TOTcharacters_by_birthDecade) +
@@ -59,6 +59,6 @@ ggplot(data=plot_SUM)+
         panel.grid.minor = element_line(colour="grey", size=0.3),
         panel.grid = element_line(colour="grey", size=0.3))
 
-ggsave("genre_total_characters.pdf")
+ggsave("total_characters_by_medium.pdf")
 
 
