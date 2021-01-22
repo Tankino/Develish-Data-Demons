@@ -1,10 +1,10 @@
 setwd("~/Desktop/data_analysis/Final project/Develish-Data-Demons")
-
+#loading in the tidyverse and ggplot2
 library(tidyverse)
 library(ggthemes)
 
 creator_data <- read_csv('creators_with_descriptions.csv') 
-
+#below is all used to create birthdecade's for creators
 plot1a <- creator_data %>%
   mutate(birthDecade = ifelse((birthYear<1500), "<=1400s", 0)) %>%
   mutate(birthDecade = ifelse((birthYear>1499) & (birthYear<1600), "1500s", birthDecade)) %>%
@@ -31,7 +31,7 @@ plot1a <- creator_data %>%
   mutate(birthDecade = ifelse((birthYear>1979) & (birthYear<1990), "1980s", birthDecade)) %>%
   mutate(birthDecade = ifelse((birthYear>1989) & (birthYear<2000), "1990s", birthDecade))
   
-
+#the pipeline below is used to create the total number of characters per medium per birthdecade.
 plot_SUM <- plot1a %>%
   group_by(birthDecade) %>%
   mutate(TOTcharacters_by_birthDecade = sum(Number_of_characters))%>%
@@ -41,9 +41,9 @@ plot_SUM <- plot1a %>%
   add_count(birthDecade) %>%
   mutate(TOTcharacters_by_birthDecade =TOTcharacters_by_birthDecade/n) %>%
   group_by(birthDecade, Description)
-
+#below is used to load in the colors
 cbPalette <- c("#56B4E9", "#009E73", "#F0E442", "#0072B2")
-
+#actually plotting the data
 ggplot(data=plot_SUM)+
   aes(x=birthDecade, y=TOTcharacters_by_birthDecade) +
   geom_col(aes(fill=Description))+
