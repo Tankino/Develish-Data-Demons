@@ -4,17 +4,26 @@ Final assignment UCACCMET2J Annie, Dorian and Cas
 creator_data.csv
 Cleaned CSV file with all the creators with wikipedia pages of whom at least one character appear on wikipedia, with additional variables.
 
-creators.txt
-List of the creator titles only
+creator_data_cleaned.csv
+Cleaned creator_data file with year of birth indicated for more creators, based on birthDate variable.
 
-creator_list.py
-Python script to make creators.txt and creator_data.csv
+creators_with_description.csv
+Manually coded creator_data_cleaned. The original descriptions were replaced by categories of medium in which the creator worked: Literature, Cartoon/Comic, Film/TV, Other.
+
+creators.txt
+List of the creator's Wikipedia page titles only. Used as a way to store that data and save runtime when making changes to the code.
+
+creator_data_extraction.py
+Python script to make creators.txt and creator_data.csv. See comments scripts for details.
+
+creator_data_cleanuo.py
+Python script transform creator_data.csv into creator_data_cleaned.csv. See comments in script for details.
 
 exploratory.R
-inital exploration with R to find the numbers of entries for the authors in for each variable
+R script for data analysis and creation of the graphs. See comments in script for details.
 
-fictional_characters.csv
-CSV file with all the fictional characters & associated information that can be found on wikipedia
+color_by_medium.R
+R script for creating the graph sorted by medium, using the creators_with_description.csv
 
-Json_to_csv.py 
-Python script used to make fictional_characters.csv
+.pdf files
+Contain PDF versions of the graphs used in the presentation and report.
