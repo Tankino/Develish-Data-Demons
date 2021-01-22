@@ -51,13 +51,14 @@ ggplot(data=plot_SUM)+
   aes(x=birthDecade, y=TOTcharacters_by_birthDecade) +
   geom_col()+
   labs(x = "Birth decade of creator",
-       y = "Total number of characters\n")+
+       y = "Total number of characters\n",
+       caption = "n = 1927")+
   theme_economist_white(gray_bg = FALSE)+
-  scale_color_economist()+
   scale_y_continuous(minor_breaks = seq(0 , 750, 50), breaks = seq(0, 700, 100), 
                      position = "right")+
-  theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
-        axis.text.y = element_text(vjust = -0.5, hjust = -10),
+  theme(axis.text.x = element_text(angle = -45, hjust = 0.1, size = 14),
+        axis.text.y = element_text(vjust = -0.5, hjust = -10, size = 14),
+        axis.title=element_text(size=14),
         panel.grid.minor = element_line(colour="grey", size=0.3),
         panel.grid = element_line(colour="grey", size=0.3))
 
@@ -70,23 +71,29 @@ plot_AVG <- plot1a %>%
   mutate(prop_contribution=Number_of_characters/n) %>%
   mutate(max_prop=ifelse(max(prop_contribution)==prop_contribution, prop_contribution, NA)) %>%
   filter(!is.na(max_prop)) %>%
+  arrange(birthDecade) %>%
   filter(!is.na(birthDecade))
+
+plot_AVG <- plot_AVG[-c(12, 18, 22),]
 
 ggplot(data=plot_AVG)+
   aes(x=birthDecade)+
-  geom_col(aes(y=AVGcharacters_by_birthDecade))+
+  geom_col(aes(y=AVGcharacters_by_birthDecade, fill="Total"))+
   labs(x = "Birth decade of creator",
-       y = "Average number of characters",)+
+       y = "Average number of characters\n",
+       caption = "n = 1927")+
   theme_economist_white(gray_bg = FALSE)+
-  scale_color_economist()+
+  scale_fill_manual(values=c("pink", "grey"))+
   scale_y_continuous(minor_breaks = seq(1 , 16, 1), breaks = seq(1, 16, 2),
                      position = "right")+
-  theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
-        axis.text.y = element_text(vjust = -0.5, hjust = -0.5),
+  theme(axis.text.x = element_text(angle = -45, hjust = 0.1, size = 14),
+        axis.text.y = element_text(vjust = 0, hjust = -0.5, size = 14),
+        axis.title=element_text(size=14),
         panel.grid.minor = element_line(colour="grey", size=0.3),
-        panel.grid = element_line(colour="grey", size=0.3))+
-  geom_col(aes(y=max_prop), fill='pink')+
-  annotate("text", x=1840, y=12, label = "Alice in Wonderland")
+        panel.grid = element_line(colour="grey", size=0.3),
+        legend.title = element_blank())+
+  geom_col(aes(y=max_prop, fill='Proportion from largest creator'))+
+  annotate("text", x="1870s", y=11.5, label = " <--Alice in Wonderland effect")
 
 
 ggsave("average_characters.pdf")
@@ -102,13 +109,15 @@ ggplot(data=plot_AUTHORS)+
   aes(x=birthDecade) +
   geom_bar()+
   labs(x = "Birth decade of creator",
-       y = "Total number of creator\n")+
+       y = "Total number of creator\n",
+       caption = "n = 1927")+
   theme_economist_white(gray_bg = FALSE)+
-  scale_color_economist()+
   scale_y_continuous( position = "right")+
-  theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
-        axis.text.y = element_text(vjust = -0.5, hjust = -10),
+  theme(axis.text.x = element_text(angle = -45, hjust = 0.1, size = 14),
+        axis.text.y = element_text(vjust = -0.5, hjust = -10, size = 14),
+        axis.title=element_text(size=14),
         panel.grid.minor = element_line(colour="grey", size=0.3),
         panel.grid = element_line(colour="grey", size=0.3))
+
 
 ggsave("total_authors.pdf")
