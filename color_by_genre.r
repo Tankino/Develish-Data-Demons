@@ -42,23 +42,25 @@ plot_SUM <- plot1a %>%
   mutate(TOTcharacters_by_birthDecade =TOTcharacters_by_birthDecade/n) %>%
   group_by(birthDecade, Description)
 
-cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2")
+cbPalette <- c("#56B4E9", "#009E73", "#F0E442", "#0072B2")
 
 ggplot(data=plot_SUM)+
   aes(x=birthDecade, y=TOTcharacters_by_birthDecade) +
   geom_col(aes(fill=Description))+
   scale_fill_manual(values=cbPalette)+
   labs(x = "Birth decade of creator",
-       y = "Total number of characters\n")+
+       y = "Total number of characters\n",
+       caption = 'n = 503')+
   theme_economist_white(gray_bg = FALSE)+
   scale_y_continuous(minor_breaks = seq(0 , 220, 25), 
                      breaks = seq(0, 220, 50), 
                      position = "right")+
   theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
-        axis.text.y = element_text(vjust = -0.5, hjust = -10),
+        axis.text.y = element_text(vjust = 0, hjust = -10),
+        legend.title = element_blank(),
         panel.grid.minor = element_line(colour="grey", size=0.3),
         panel.grid = element_line(colour="grey", size=0.3))
 
-ggsave("genre_total_characters.pdf")
+ggsave("total_characters_by_medium.pdf")
 
 
