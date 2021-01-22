@@ -49,13 +49,15 @@ ggplot(data=plot_SUM)+
   geom_col(aes(fill=Description))+
   scale_fill_manual(values=cbPalette)+
   labs(x = "Birth decade of creator",
-       y = "Total number of characters\n")+
+       y = "Total number of characters\n",
+       caption = 'n = 503')+
   theme_economist_white(gray_bg = FALSE)+
   scale_y_continuous(minor_breaks = seq(0 , 220, 25), 
                      breaks = seq(0, 220, 50), 
                      position = "right")+
   theme(axis.text.x = element_text(angle = -45, hjust = 0.1),
-        axis.text.y = element_text(vjust = -0.5, hjust = -10),
+        axis.text.y = element_text(vjust = 0, hjust = -10),
+        legend.title = element_blank(),
         panel.grid.minor = element_line(colour="grey", size=0.3),
         panel.grid = element_line(colour="grey", size=0.3))
 
